@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Administrator {
+  userId     Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+
+  firstName String
+  lastName  String
+  email     String @unique
+  password  String
+
+  offers Offer[]
+}
+
+model Candidate {
+  userId     Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+
+  firstName   String
+  lastName    String
+  email       String @unique
+  password    String
+  gender      Boolean
+  phone       String
+  address     String
+  dateOfBirth DateTime
+}
+
+enum OfferType {
+  JOB_OFFER
+  INTERNSHIP_OFFER
+}
+
+enum Location {
+  REMOTE
+  OFFICE
+  HYBRID
+}
+
+model Offer {
+  offerId    Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+
+  title         String
+  description   String
+  city          String
+  nbOfPositions Int
+  deadline      DateTime
+  contract      String
+  isArchived    Boolean
+
+  type      OfferType
+  location  Location
+  admin     Administrator @relation(fields: [managerId], references: [userId])
+  managerId Int
+  profile   Profile       @relation(fields: [concernId], references: [profileId])
+  concernId Int
+
+  candidatures OfferCandidature[]
+}
+
+model Profile {
+  profileId  Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
+
+  description        String
+  requiredProfile    String
+  desiredSkills      String[]
+  stronglyAppreciate String[]
+  languages          String[]
+
+  offers Offer[]
+}
+
+enum CandidatureType {
+  INTERNSHIP
+  JOB
+  OFFER
+}
+
+model Candidature {
+  candidatureId Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  modifiedAt    DateTime @updatedAt
+
+  educationLvl String
+  techSkills   String
+  status       Boolean         @default(false)
+  type         CandidatureType
+
+  internC InternshipCandidature?
+  jobC    JobCandidature?
+  offerC  OfferCandidature?
+}
+
+enum InternshipType {
+  PFE
+  PFA
+  Stage_ETE
+}
+
+model InternshipCandidature {
+  candidature   Candidature @relation(fields: [candidatureId], references: [candidatureId], onDelete: Cascade)
+  candidatureId Int         @id
+
+  internType         InternshipType
+  desiredTechnology  String
+  InternshipDuration Int
+}
+
+model JobCandidature {
+  candidature   Candidature @relation(fields: [candidatureId], references: [candidatureId], onDelete: Cascade)
+  candidatureId Int         @id
+
+  durationOfExp   Int
+  lastPostOcc     String
+  desiredPosition String
+}
+
+model OfferCandidature {
+  candidature   Candidature @relation(fields: [candidatureId], references: [candidatureId], onDelete: Cascade)
+  candidatureId Int         @id
+
+  durationOfExp Int
+
+  offer   Offer? @relation(fields: [offerId], references: [offerId])
+  offerId Int?
+}
