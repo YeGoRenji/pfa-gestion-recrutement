@@ -17,7 +17,8 @@ model Administrator {
 
   firstName String
   lastName  String
-  email     String @unique
+  email     String  @unique
+  gender    Boolean
   password  String
 
   offers Offer[]
@@ -30,12 +31,14 @@ model Candidate {
 
   firstName   String
   lastName    String
-  email       String @unique
+  email       String        @unique
   password    String
   gender      Boolean
   phone       String
   address     String
   dateOfBirth DateTime
+
+  candidatures Candidature[]
 }
 
 enum OfferType {
@@ -105,6 +108,9 @@ model Candidature {
   internC InternshipCandidature?
   jobC    JobCandidature?
   offerC  OfferCandidature?
+
+  candidate   Candidate @relation(fields: [candidateId], references: [userId])
+  candidateId Int
 }
 
 enum InternshipType {
