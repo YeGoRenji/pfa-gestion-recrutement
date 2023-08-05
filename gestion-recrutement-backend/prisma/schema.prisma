@@ -15,11 +15,14 @@ model Administrator {
   createdAt  DateTime @default(now())
   modifiedAt DateTime @updatedAt
 
-  firstName String
-  lastName  String
-  email     String  @unique
-  gender    Boolean
-  password  String
+  firstName   String
+  lastName    String
+  email       String   @unique
+  password    String
+  gender      Boolean
+  phone       String
+  address     String
+  dateOfBirth DateTime
 
   offers Offer[]
 }
@@ -31,7 +34,7 @@ model Candidate {
 
   firstName   String
   lastName    String
-  email       String        @unique
+  email       String   @unique
   password    String
   gender      Boolean
   phone       String

@@ -35,6 +35,9 @@ export class AuthSignUpDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @IsBoolean()
+  isAdmin: boolean;
 }
 
 export class AuthSignInDto {
@@ -44,4 +47,7 @@ export class AuthSignInDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @IsBoolean()
+  isAdmin: boolean;
 }
