@@ -16,6 +16,7 @@ export class AuthService {
   ) {}
   async signin(dto: AuthSignInDto) {
     let user: Administrator | Candidate;
+
     if (dto.isAdmin)
       user = await this.prisma.administrator.findUnique({
         where: {
@@ -28,6 +29,7 @@ export class AuthService {
           email: dto.email,
         },
       });
+
     if (!user) throw new ForbiddenException('Credentials Incorrect');
 
     const passCorrect = await argon.verify(user.password, dto.password);

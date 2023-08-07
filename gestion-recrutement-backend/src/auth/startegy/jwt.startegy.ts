@@ -5,6 +5,10 @@ import { Administrator, Candidate } from '@prisma/client';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+export type UserObj = (Candidate | Administrator) & {
+  isAdmin: boolean;
+};
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(config: ConfigService, private prisma: PrismaService) {
@@ -14,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { sub: number; isAdmin: boolean }) {
+  async validate(payload: { sub: number; isAdmin: boolean }): Promise<UserObj> {
     let user: Candidate | Administrator;
     if (payload.isAdmin)
       user = await this.prisma.administrator.findUnique({
@@ -29,6 +33,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         },
       });
     delete user.password;
-    return user;
+    return { ...user, isAdmin: payload.isAdmin };
   }
 }
