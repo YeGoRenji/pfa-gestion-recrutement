@@ -1,10 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Candidature,
-  InternshipCandidature,
-  JobCandidature,
-  OfferCandidature,
-} from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
