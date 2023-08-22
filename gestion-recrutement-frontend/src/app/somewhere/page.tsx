@@ -1,18 +1,23 @@
-import do_stuff from "./stuff"
+"use client"
+import { useState } from "react";
+import do_stuff from "./stuff";
 
-type Props = {}
+type Props = {};
 
-async function Somewhere({}: Props) {
 
-  const data = await do_stuff()
+function Somewhere({}: Props) {
 
+  const [data, setData] = useState({});
 
   return (
     <div>
       <div>Value :</div>
-      <div>{data.message}</div>
+      <div>{JSON.stringify(data)}</div>
+      <button onClick={async () => {
+        setData(await do_stuff())
+      }}>Click here</button>
     </div>
-  )
+  );
 }
 
-export default Somewhere
+export default Somewhere;
