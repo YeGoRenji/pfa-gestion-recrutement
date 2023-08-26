@@ -8,11 +8,11 @@ import { User } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { CandidaturesService } from './candidatures.service';
 
+@UseGuards(JwtGuard)
 @Controller('candidatures')
 export class CandidaturesController {
   constructor(private candidatureService: CandidaturesService) {}
 
-  @UseGuards(JwtGuard)
   @Get('me')
   getMyCandidatures(
     @User('userId') userId: number,
@@ -24,6 +24,6 @@ export class CandidaturesController {
 
   @Get('test')
   test() {
-    return { message: 'Hello Front :) !' };
+    return { message: 'Hello Front Again :) !' };
   }
 }

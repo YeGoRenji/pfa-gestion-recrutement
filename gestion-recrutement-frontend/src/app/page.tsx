@@ -1,12 +1,14 @@
-import Link from "next/link"
+"use client"
+
+import Link from "next/link";
 
 export default function Home() {
+
   return (
-    <div>
-      <div>Hello !</div>
-      <Link href="/somewhere">
-        GO SOMEWHERE
-      </Link>
-    </div>
+      <div>
+        <div>Hello !</div>
+        <div>CONTENT HERE</div>
+        <Link href="/somewhere">GO SOMEWHERE</Link>
+      </div>
   );
 }
