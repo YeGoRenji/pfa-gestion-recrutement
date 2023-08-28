@@ -1,6 +1,6 @@
 "use client";
 import Input from "@/components/Input";
-import { handlePostRequest } from "@/functions/utils";
+import { handlePostRequest } from "@/functions";
 import {
   Button,
   Radio,

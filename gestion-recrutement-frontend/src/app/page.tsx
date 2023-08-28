@@ -1,14 +1,52 @@
-"use client"
+"use client";
 
+import { handleGetRequest } from "@/functions";
+import {
+  useToast,
+} from "@chakra-ui/react";
 import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import OfferRow from "@/components/OfferRow";
+import { OfferRowType } from "@/types";
+import AccessContext from "@/context/accessContext";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-
+  const [data, setData] = useState<OfferRowType[]>([]);
+  const [access, setAccess] = useContext(AccessContext);
+  const router = useRouter();
+  const toast = useToast();
+  useEffect(() => {
+    async function fetchData() {
+      const data = await handleGetRequest("/offers/all", null, (error) => {
+        toast({
+          title: "Server Error !",
+          description: error.response?.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      });
+      setData(data?.data);
+    }
+    fetchData();
+  }, [toast]);
   return (
+    <div>
       <div>
-        <div>Hello !</div>
-        <div>CONTENT HERE</div>
-        <Link href="/somewhere">GO SOMEWHERE</Link>
+        {data.map((data) => (
+          <OfferRow key={data.offerId} offer={data} onApply={() => {
+            if (!access) {
+              router.push('/login');
+              return;
+            }
+            toast({
+              title: `TODO: apply for offer ${data.offerId}`,
+              position: "bottom-right"
+            })
+          }}/>
+        ))}
       </div>
+    </div>
   );
 }

@@ -1,15 +1,19 @@
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
-import { FaGraduationCap } from 'react-icons/fa';
+import AccessContext from "@/context/accessContext";
+import Link from "next/link";
+import React, { useContext, useEffect, useState } from "react";
+import { FaGraduationCap } from "react-icons/fa";
 
-type Props = { children: React.ReactNode }
+type Props = { children: React.ReactNode };
 
 export default function HomeLayout({ children }: Props) {
-  const navs = ["HOME", "INTERNSHIP", "JOB"];
-  const [access, setAccess] = useState<string | null>(null);
-  useEffect(() => {
-    setAccess(localStorage.getItem('access_token'))
-  }, [])
+  const navs: { label: string; route: string }[] = [
+    { label: "HOME", route: "/" },
+    { label: "INTERNSHIP", route: "#" },
+    { label: "JOB", route: "#" },
+  ];
+
+  const [access, setAccess] = useContext(AccessContext);
+
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <div className="md:h-screen dark:text-white grid grid-rows-[60px_auto]">
@@ -21,24 +25,32 @@ export default function HomeLayout({ children }: Props) {
           </Link>
           <div className="w-[50%] flex justify-around">
             {navs.map((elt, index) => (
-              <div key={index}>{elt}</div>
+              <Link key={index} href={elt.route}>
+                {elt.label}
+              </Link>
             ))}
           </div>
           <div>
             {access ? (
               <div className="flex gap-5">
                 <Link href="#">PROFILE</Link>
-                <button className="text-red-400" onClick={() => {localStorage.removeItem('access_token'); setAccess(null)}}>LOGOUT</button>
+                <button
+                  className="text-red-400"
+                  onClick={() => {
+                    localStorage.removeItem("access_token");
+                    setAccess(null);
+                  }}
+                >
+                  LOGOUT
+                </button>
               </div>
             ) : (
               <Link href="/login">LOGIN</Link>
             )}
           </div>
         </nav>
-        <div>
-          {children}
-        </div>
+        <div className="p-5">{children}</div>
       </div>
     </div>
-  )
+  );
 }
