@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div>
       <div>
-        {data.map((data) => (
+        {data && data.map((data) => (
           <OfferRow key={data.offerId} offer={data} onApply={() => {
             if (!access) {
               router.push('/login');

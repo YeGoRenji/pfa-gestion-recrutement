@@ -20,7 +20,7 @@ export class CandidatesController {
   getMe(@User() user: UserObj) {
     return user;
   }
-  // TODO: Admin based and Candidate based requests :)
+
   @Get('all')
   getAll(@User('isAdmin') isAdmin: boolean) {
     if (!isAdmin) throw new UnauthorizedException('You are not admin');
