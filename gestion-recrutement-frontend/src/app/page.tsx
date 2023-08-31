@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import OfferRow from "@/components/OfferRow";
 import { OfferRowType } from "@/types";
-import AccessContext from "@/context/accessContext";
+import AccessContext from "@/context/AccessContext";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -40,10 +40,12 @@ export default function Home() {
               router.push('/login');
               return;
             }
+            router.push('/offer');
             toast({
               title: `TODO: apply for offer ${data.offerId}`,
               position: "bottom-right"
             })
+
           }}/>
         ))}
       </div>

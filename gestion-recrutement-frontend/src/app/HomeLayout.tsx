@@ -1,4 +1,4 @@
-import AccessContext from "@/context/accessContext";
+import AccessContext from "@/context/AccessContext";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { FaGraduationCap } from "react-icons/fa";
@@ -8,8 +8,8 @@ type Props = { children: React.ReactNode };
 export default function HomeLayout({ children }: Props) {
   const navs: { label: string; route: string }[] = [
     { label: "HOME", route: "/" },
-    { label: "INTERNSHIP", route: "#" },
-    { label: "JOB", route: "#" },
+    { label: "INTERNSHIP", route: "http://localhost:3000/internship" },
+    { label: "JOB", route: "http://localhost:3000/job" },
   ];
 
   const [access, setAccess] = useContext(AccessContext);
