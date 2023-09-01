@@ -32,7 +32,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("access_token");
       if (["/login", "/register"].includes(path) && verified)
         return router.push("/");
-      if (["/internship", "/job"].includes(path) && !verified)
+      if (["/internship", "/job"].includes(path) ||  path.startsWith("/apply") && !verified)
         return router.push("/login");
       console.log("here");
       setLoading(false);

@@ -9,7 +9,7 @@ import {
 import { User } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { CandidaturesService } from './candidatures.service';
-import { jobAppDto } from './dto';
+import { internshipAppDto, jobAppDto, offerAppDto } from './dto';
 
 @UseGuards(JwtGuard)
 @Controller('candidatures')
@@ -33,5 +33,25 @@ export class CandidaturesController {
   ) {
     if (isAdmin) throw new UnauthorizedException('You should be a candidate !');
     return this.candidatureService.jobApplication(data, userId);
+  }
+
+  @Post('internship')
+  internshipApplication(
+    @Body() data: internshipAppDto,
+    @User('userId') userId: number,
+    @User('isAdmin') isAdmin: boolean,
+  ) {
+    if (isAdmin) throw new UnauthorizedException('You should be a candidate !');
+    return this.candidatureService.internshipApplication(data, userId);
+  }
+
+  @Post('offer')
+  offerApplication(
+    @Body() data: offerAppDto,
+    @User('userId') userId: number,
+    @User('isAdmin') isAdmin: boolean,
+  ) {
+    if (isAdmin) throw new UnauthorizedException('You should be a candidate !');
+    return this.candidatureService.offerApplication(data, userId);
   }
 }

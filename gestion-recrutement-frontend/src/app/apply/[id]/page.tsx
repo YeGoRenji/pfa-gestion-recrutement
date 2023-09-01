@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 //import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
@@ -31,6 +31,7 @@ export default function Application({}: Props) {
   const [passmatch, setPassmatch] = useState(true);
   const toast = useToast();
   const router = useRouter();
+  const params = useParams();
   const [loading, setLoading] = useState<boolean>(false);
   const { register, handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
@@ -78,6 +79,9 @@ export default function Application({}: Props) {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-[100%]">
+      <h1>
+        {params.id}
+      </h1>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-[100%] lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-3xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

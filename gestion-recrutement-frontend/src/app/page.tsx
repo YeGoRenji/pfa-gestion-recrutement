@@ -39,12 +39,7 @@ export default function Home() {
               router.push('/login');
               return;
             }
-            router.push('/apply');
-            toast({
-              title: `TODO: apply for offer ${data.offerId}`,
-              position: "bottom-right"
-            })
-
+            router.push(`/apply/${data.offerId}`);
           }}/>
         ))}
       </div>

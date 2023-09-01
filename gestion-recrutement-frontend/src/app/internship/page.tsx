@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import Input from "@/components/Input";
 
 import { handlePostRequest } from "@/functions";
@@ -15,65 +15,62 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import AccessContext from "@/context/AccessContext";
 
 type Props = {};
 
 type Inputs = {
-  educationlvl: string;
+  educationLvl: string;
   techSkills: string;
-  type: string;
+  type: "PFE" | "PFA" | "Stage_ETE";
   desiredTechnology: string;
-  internshipDuration: string;
+  internshipDuratio: number;
 };
 
 export default function Internship({}: Props) {
-  const [passmatch, setPassmatch] = useState(true);
   const toast = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [access, _] = useContext(AccessContext);
   const { register, handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
-      // internshipDuration: "0 ",
+      internshipDuratio: 1,
+      type: "PFE",
     },
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    //if (data.password !== data.confirmpassword) {
-    //  setPassmatch(false);
-    return;
+    setLoading(true);
+    if (!access) {
+      setLoading(false);
+      return;
+    }
+    const res = await handlePostRequest(
+      "/candidatures/internship",
+      data,
+      (error) => {
+        toast({
+          title: "Application Failed !",
+          description: error.response?.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
+      access
+    );
+    setLoading(false);
+    if (res) {
+      toast({
+        title: "Application sent !",
+        description: null,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      router.push("/");
+    }
   };
-  //    setPassmatch(true);
-  //    setLoading(true);
-  //    const res = await handlePostRequest(
-  //      "/auth/signup",
-  //      {
-  //        ...data,
-  //        gender: data.gender === '1' ? true : false,
-  //        isAdmin: false,
-  //      },
-  //      (error) => {
-  //        toast({
-  //          title: "Register Failed !",
-  //          description: error.response?.data.message,
-  //          status: "error",
-  //          duration: 3000,
-  //         isClosable: true,
-  //        });
-  //      }
-  //    );
-  //    setLoading(false);
-  //    if (res) {
-  //      toast({
-  //        title: "Register Successful !",
-  //        description: null,
-  //        status: "success",
-  //        duration: 3000,
-  //        isClosable: true,
-  //      });
-  //      localStorage.setItem("access_token", res.data.access_token);
-  //      router.push("/");
-  //    }
-  //   };
   //#475163
   //#4C5866
 
@@ -103,7 +100,7 @@ export default function Internship({}: Props) {
                   <Input
                     placeholder="Education Level"
                     label="Education Level"
-                    name="educationlvl"
+                    name="educationLvl"
                     register={register}
                     type="text"
                   />
@@ -126,9 +123,9 @@ export default function Internship({}: Props) {
                 <div className="space-y-2 md:space-y-6 w-[48%]">
                   {
                     <Controller
-                      name="internshipDuration"
+                      name="internshipDuratio"
                       control={control}
-                      //defaultValue="0"
+                      defaultValue={1}
                       render={({ field }) => (
                         <FormControl>
                           <label style={{ fontSize: "14px" }}>
@@ -136,22 +133,22 @@ export default function Internship({}: Props) {
                           </label>
 
                           <Select {...field} style={comboBoxStyle}>
-                            <option value="One" style={{ color: "black" }}>
+                            <option value="1" style={{ color: "black" }}>
                               One month
                             </option>
-                            <option value="Two" style={{ color: "black" }}>
+                            <option value="2" style={{ color: "black" }}>
                               Two month
                             </option>
-                            <option value="Tree" style={{ color: "black" }}>
+                            <option value="3" style={{ color: "black" }}>
                               Tree month
                             </option>
-                            <option value="Four" style={{ color: "black" }}>
+                            <option value="4" style={{ color: "black" }}>
                               Four month
                             </option>
-                            <option value="Five" style={{ color: "black" }}>
+                            <option value="5" style={{ color: "black" }}>
                               Five month
                             </option>
-                            <option value="Six" style={{ color: "black" }}>
+                            <option value="6" style={{ color: "black" }}>
                               Six month
                             </option>
                           </Select>
