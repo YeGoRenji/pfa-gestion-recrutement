@@ -1,8 +1,6 @@
 "use client";
-import React from 'react';
+import React from "react";
 import Input from "@/components/Input";
-import { Dropdown } from 'react-bootstrap';
-
 
 import { handlePostRequest } from "@/functions";
 import {
@@ -14,7 +12,6 @@ import {
   Spinner,
   Stack,
   useToast,
- 
 } from "@chakra-ui/react";
 
 import Link from "next/link";
@@ -25,32 +22,29 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 type Props = {};
 
 type Inputs = {
-  
   educationlvl: string;
   techSkills: string;
   lastpostoccurr: string;
   desiredPosition: string;
   durationOfExp: string;
-  
-
 };
 
-export default function internship({}: Props) {
+export default function Job({}: Props) {
   const [passmatch, setPassmatch] = useState(true);
   const toast = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { register, handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
-       // durationOfExp: " ",
+      // durationOfExp: " ",
     },
   });
 
-   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-     //if (data.password !== data.confirmpassword) {
-     //  setPassmatch(false);
-       return;
-     }
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    //if (data.password !== data.confirmpassword) {
+    //  setPassmatch(false);
+    return;
+  };
   //    setPassmatch(true);
   //    setLoading(true);
   //    const res = await handlePostRequest(
@@ -84,19 +78,9 @@ export default function internship({}: Props) {
   //    }
   //  };
 
-
-
-
-
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-        <Link
-          href="/"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          Aji Tkhdem
-        </Link>
+    <section className="bg-gray-50 dark:bg-gray-900 h-[100%]">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-[100%] lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-3xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
@@ -108,7 +92,7 @@ export default function internship({}: Props) {
             >
               <div className="flex justify-between">
                 <div className="space-y-2 md:space-y-6 w-[48%]">
-                <Input
+                  <Input
                     placeholder="Education Level"
                     label="Education Level"
                     name="educationlvl"
@@ -123,16 +107,15 @@ export default function internship({}: Props) {
                     register={register}
                     type="text"
                   />
-                   <Input
+                  <Input
                     placeholder="Duration Of Experience"
                     label="Duration Of Experience"
                     name="durationOfExp"
                     register={register}
                     type="text"
-                    />
-                                  
-                  </div>
-                  <div className="space-y-2 md:space-y-6 w-[48%]">
+                  />
+                </div>
+                <div className="space-y-2 md:space-y-6 w-[48%]">
                   <Input
                     placeholder="last poste occurred"
                     label="last poste occurred"
@@ -140,7 +123,6 @@ export default function internship({}: Props) {
                     register={register}
                     type="text"
                   />
-                  
 
                   <Input
                     placeholder="Desired Position"
@@ -148,9 +130,8 @@ export default function internship({}: Props) {
                     name="desiredPosition"
                     register={register}
                     type="text"
-                     />
- 
-                 </div>
+                  />
+                </div>
               </div>
               <Button
                 isDisabled={loading}

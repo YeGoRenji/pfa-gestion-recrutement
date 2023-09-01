@@ -4,7 +4,6 @@ import { handleGetRequest } from "@/functions";
 import {
   useToast,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import OfferRow from "@/components/OfferRow";
 import { OfferRowType } from "@/types";
@@ -40,7 +39,7 @@ export default function Home() {
               router.push('/login');
               return;
             }
-            router.push('/offer');
+            router.push('/apply');
             toast({
               title: `TODO: apply for offer ${data.offerId}`,
               position: "bottom-right"

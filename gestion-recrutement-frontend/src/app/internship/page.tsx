@@ -1,20 +1,14 @@
 "use client";
-import React from 'react';
+import React from "react";
 import Input from "@/components/Input";
-import { Dropdown } from 'react-bootstrap';
-
 
 import { handlePostRequest } from "@/functions";
 import {
   Button,
-  Radio,
-  RadioGroup,
   Select,
   FormControl,
   Spinner,
-  Stack,
   useToast,
- 
 } from "@chakra-ui/react";
 //import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 import Link from "next/link";
@@ -25,32 +19,29 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 type Props = {};
 
 type Inputs = {
-  
   educationlvl: string;
   techSkills: string;
   type: string;
   desiredTechnology: string;
   internshipDuration: string;
- 
-
 };
 
-export default function internship({}: Props) {
+export default function Internship({}: Props) {
   const [passmatch, setPassmatch] = useState(true);
   const toast = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const { register, handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
-     // internshipDuration: "0 ",
+      // internshipDuration: "0 ",
     },
   });
 
-   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-     //if (data.password !== data.confirmpassword) {
-     //  setPassmatch(false);
-       return;
-     }
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    //if (data.password !== data.confirmpassword) {
+    //  setPassmatch(false);
+    return;
+  };
   //    setPassmatch(true);
   //    setLoading(true);
   //    const res = await handlePostRequest(
@@ -82,33 +73,22 @@ export default function internship({}: Props) {
   //      localStorage.setItem("access_token", res.data.access_token);
   //      router.push("/");
   //    }
- //   };
- //#475163
- //#4C5866
+  //   };
+  //#475163
+  //#4C5866
 
- const comboBoxStyle = {
-  backgroundColor: '#4C5869',
-  color: '#FFFFFF',
-  border: '0px ',
-  padding: '10px',
-  gap: '10px', 
-  fontSize: '13px', // Taille de la police pour les options
-
-}
-
-
-
+  const comboBoxStyle = {
+    backgroundColor: "#4C5869",
+    color: "#FFFFFF",
+    border: "0px ",
+    padding: "10px",
+    gap: "10px",
+    fontSize: "13px", // Taille de la police pour les options
+  };
 
   return (
- 
-    <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-        <Link
-          href="/"
-          className="flex items-cen ter mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          Aji Tkhdem
-        </Link>
+    <section className="bg-gray-50 dark:bg-gray-900 h-[100%]">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-[100%] lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-3xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
@@ -120,7 +100,6 @@ export default function internship({}: Props) {
             >
               <div className="flex justify-between">
                 <div className="space-y-2 md:space-y-6 w-[48%]">
-                 
                   <Input
                     placeholder="Education Level"
                     label="Education Level"
@@ -128,9 +107,6 @@ export default function internship({}: Props) {
                     register={register}
                     type="text"
                   />
-          
-                  
-
 
                   <Input
                     placeholder="Technical skills"
@@ -146,58 +122,74 @@ export default function internship({}: Props) {
                     register={register}
                     type="text"
                   />
-                  </div>
-                  <div className="space-y-2 md:space-y-6 w-[48%]">
-   
+                </div>
+                <div className="space-y-2 md:space-y-6 w-[48%]">
+                  {
+                    <Controller
+                      name="internshipDuration"
+                      control={control}
+                      //defaultValue="0"
+                      render={({ field }) => (
+                        <FormControl>
+                          <label style={{ fontSize: "14px" }}>
+                            Internship Duration
+                          </label>
 
-            { <Controller
-          name="internshipDuration"
-          
-          control={control}
-          //defaultValue="0"
-          render={({ field }) => (
-            <FormControl >
-              <label style={{ fontSize: '14px'}}>Internship Duration</label>
-   
-              
-              <Select  {...field} style={comboBoxStyle}>
-                
-                <option value="One"  style={{ color: "black" }}>One month</option>
-                <option value="Two" style={{ color: "black" }}>Two month</option>
-                <option value="Tree" style={{ color: "black" }}>Tree month</option>
-                <option value="Four" style={{ color: "black" }}>Four month</option>
-                <option value="Five" style={{ color: "black" }}>Five month</option>
-                <option value="Six" style={{ color: "black" }}>Six month</option>
-              </Select>
-            </FormControl>
-            
-          )} 
-       /> } 
+                          <Select {...field} style={comboBoxStyle}>
+                            <option value="One" style={{ color: "black" }}>
+                              One month
+                            </option>
+                            <option value="Two" style={{ color: "black" }}>
+                              Two month
+                            </option>
+                            <option value="Tree" style={{ color: "black" }}>
+                              Tree month
+                            </option>
+                            <option value="Four" style={{ color: "black" }}>
+                              Four month
+                            </option>
+                            <option value="Five" style={{ color: "black" }}>
+                              Five month
+                            </option>
+                            <option value="Six" style={{ color: "black" }}>
+                              Six month
+                            </option>
+                          </Select>
+                        </FormControl>
+                      )}
+                    />
+                  }
 
-         
-            { <Controller
-           name="type"
-          
+                  {
+                    <Controller
+                      name="type"
+                      control={control}
+                      //defaultValue="PFE"
 
-           control={control}
-           //defaultValue="PFE"
-
-           render={({ field }) => (
-           
-            
-             <FormControl >
-               <label style={{ fontSize: '14px'}}>Type Of Internship</label>
-               <Select  {...field} style={comboBoxStyle}>
-                 <option value="PFE"  style={{ color: "black" }}>PFE</option>
-                 <option value="PFA" style={{ color: "black" }}>PFA</option>
-                 <option value="Stage_ETE"  style={{ color: "black" }}>Stage ETE</option>
-               </Select>
-             </FormControl>
-            
-           )}
-          /> } 
-
-              </div>
+                      render={({ field }) => (
+                        <FormControl>
+                          <label style={{ fontSize: "14px" }}>
+                            Type Of Internship
+                          </label>
+                          <Select {...field} style={comboBoxStyle}>
+                            <option value="PFE" style={{ color: "black" }}>
+                              PFE
+                            </option>
+                            <option value="PFA" style={{ color: "black" }}>
+                              PFA
+                            </option>
+                            <option
+                              value="Stage_ETE"
+                              style={{ color: "black" }}
+                            >
+                              Stage ETE
+                            </option>
+                          </Select>
+                        </FormControl>
+                      )}
+                    />
+                  }
+                </div>
               </div>
               <Button
                 isDisabled={loading}
@@ -214,4 +206,3 @@ export default function internship({}: Props) {
     </section>
   );
 }
-
