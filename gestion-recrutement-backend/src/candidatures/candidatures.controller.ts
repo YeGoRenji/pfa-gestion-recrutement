@@ -11,6 +11,7 @@ import { JwtGuard } from 'src/auth/guard';
 import { CandidaturesService } from './candidatures.service';
 import { internshipAppDto, jobAppDto, offerAppDto } from './dto';
 
+
 @UseGuards(JwtGuard)
 @Controller('candidatures')
 export class CandidaturesController {

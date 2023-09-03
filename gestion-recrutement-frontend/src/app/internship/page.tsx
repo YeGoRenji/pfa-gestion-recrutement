@@ -32,56 +32,59 @@ export default function Internship({}: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [access, _] = useContext(AccessContext);
-  const { register, handleSubmit, control } = useForm<Inputs>({
+  const { register, handleSubmit, control,setValue } = useForm<Inputs>({
     defaultValues: {
       internshipDuratio: 1,
       type: "PFE",
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setLoading(true);
-    if (!access) {
+   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const aa= parseInt(data.internshipDuratio.toString(), 10);
+    setValue("internshipDuratio", aa);
+    data.internshipDuratio=aa;
+     setLoading(true);
+     if (!access) {
       setLoading(false);
-      return;
+       return;
     }
-    const res = await handlePostRequest(
-      "/candidatures/internship",
-      data,
-      (error) => {
-        toast({
-          title: "Application Failed !",
-          description: error.response?.data.message,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      },
-      access
-    );
+     const res = await handlePostRequest(
+       "/candidatures/internship",
+       data,
+       (error) => {
+         toast({
+           title: "Application Failed !",
+           description: error.response?.data.message,
+           status: "error",
+           duration: 3000,
+           isClosable: true,
+         });
+       },
+       access
+     );
     setLoading(false);
-    if (res) {
-      toast({
-        title: "Application sent !",
-        description: null,
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-      router.push("/");
-    }
-  };
-  //#475163
-  //#4C5866
+     if (res) {
+       toast({
+         title: "Application sent !",
+         description: null,
+         status: "success",
+         duration: 3000,
+         isClosable: true,
+     });
+       router.push("/");
+     }
+   };
+  // //#475163
+  // //#4C5866
 
   const comboBoxStyle = {
-    backgroundColor: "#4C5869",
-    color: "#FFFFFF",
-    border: "0px ",
-    padding: "10px",
-    gap: "10px",
-    fontSize: "13px", // Taille de la police pour les options
-  };
+     backgroundColor: "#4C5869",
+     color: "#FFFFFF",
+     border: "0px ",
+     padding: "10px",
+     gap: "10px",
+     fontSize: "13px", // Taille de la police pour les options
+   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-[100%]">

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Input from "@/components/Input";
 
 import { handlePostRequest } from "@/functions";
@@ -17,72 +17,93 @@ import {
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm , UseFormSetValue } from "react-hook-form";
+import AccessContext from "@/context/AccessContext";
+
 
 type Props = {};
 
-type Inputs = {
-  educationlvl: string;
-  techSkills: string;
-  durationOfExp: string;
-};
+
 
 export default function Application({}: Props) {
   const [passmatch, setPassmatch] = useState(true);
   const toast = useToast();
   const router = useRouter();
   const params = useParams();
+  const [access, _] = useContext(AccessContext);
   const [loading, setLoading] = useState<boolean>(false);
-  const { register, handleSubmit, control } = useForm<Inputs>({
+
+  const { register, handleSubmit, control ,setValue } = useForm<Inputs>({
     defaultValues: {
-      // internshipDuration: "0 ",
+     // durationOfExp: 1,
+      //offerId: 0,
     },
   });
+  type Inputs = {
+    offerId: number ;
+    educationlvl: string;
+    techSkills: string;
+    durationOfExp: number;
+  };
+
+
+
+
+  useEffect(() => {
+
+    const offerId = parseInt(params.id.toString(), 10);
+    setValue("offerId", offerId);
+    
+  }, [params.id, setValue]);
+ 
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    //if (data.password !== data.confirmpassword) {
-    //  setPassmatch(false);
-    return;
-  };
-  //    setPassmatch(true);
-  //    setLoading(true);
-  //    const res = await handlePostRequest(
-  //      "/auth/signup",
-  //      {
-  //        ...data,
-  //        gender: data.gender === '1' ? true : false,
-  //        isAdmin: false,
-  //      },
-  //      (error) => {
-  //        toast({
-  //          title: "Register Failed !",
-  //          description: error.response?.data.message,
-  //          status: "error",
-  //          duration: 3000,
-  //         isClosable: true,
-  //        });
-  //      }
-  //    );
-  //    setLoading(false);
-  //    if (res) {
-  //      toast({
-  //        title: "Register Successful !",
-  //        description: null,
-  //        status: "success",
-  //        duration: 3000,
-  //        isClosable: true,
-  //      });
-  //      localStorage.setItem("access_token", res.data.access_token);
-  //      router.push("/");
-  //    }
-  //  };
+    const aa= parseInt(data.durationOfExp.toString(), 10);
+    setValue("durationOfExp", aa);
+    data.durationOfExp=aa;
 
+    setLoading(true);
+    if (!access) {
+     setLoading(false);
+      return;
+   }
+
+   
+    const res = await handlePostRequest(
+      "/candidatures/offer",
+      data,
+      
+      (error) => {
+        toast({
+          title: "Application Failed !",
+          description: error.response?.data.message + typeof data.durationOfExp,
+          status: "error", 
+          duration: 3000,
+          isClosable: true,
+        });
+        
+      },
+      access
+    );
+   setLoading(false);
+    if (res) {
+      toast({
+        title: "Application sent !",
+        description: null,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+    });
+      router.push("/");
+    }
+  };
+  
+
+ 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-[100%]">
-      <h1>
-        {params.id}
-      </h1>
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-[100%] lg:py-0">
+
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-[100%] lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-3xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
@@ -94,13 +115,15 @@ export default function Application({}: Props) {
             >
               <div className="flex justify-between">
                 <div className="space-y-2 md:space-y-6 w-[48%]">
+                  
                   <Input
                     placeholder="Education Level"
                     label="Education Level"
-                    name="educationlvl"
+                    name="educationLvl"
                     register={register}
                     type="text"
                   />
+                  
 
                   <Input
                     placeholder="Technical skills"
@@ -110,16 +133,20 @@ export default function Application({}: Props) {
                     type="text"
                   />
                 </div>
+                
                 <div className="space-y-2 md:space-y-6 w-[48%]">
                   <Input
                     placeholder="Duration Of Experience"
                     label="Duration Of Experience"
-                    name="durationOfExp"
+                    name="durationOfExp"                   
                     register={register}
-                    type="text"
+                    type="number"
                   />
                 </div>
-              </div>
+                </div>
+  
+              
+              
               <Button
                 isDisabled={loading}
                 type="submit"
@@ -135,3 +162,5 @@ export default function Application({}: Props) {
     </section>
   );
 }
+
+

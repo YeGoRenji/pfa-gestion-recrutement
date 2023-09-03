@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import Input from "@/components/Input";
 
 import { handlePostRequest } from "@/functions";
@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import AccessContext from "@/context/AccessContext";
 
 type Props = {};
 
@@ -26,7 +27,7 @@ type Inputs = {
   techSkills: string;
   lastpostoccurr: string;
   desiredPosition: string;
-  durationOfExp: string;
+  durationOfExp: number;
 };
 
 export default function Job({}: Props) {
@@ -34,50 +35,47 @@ export default function Job({}: Props) {
   const toast = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const { register, handleSubmit, control } = useForm<Inputs>({
+  const [access, _] = useContext(AccessContext);
+  const { register, handleSubmit, control,setValue } = useForm<Inputs>({
     defaultValues: {
-      // durationOfExp: " ",
+      durationOfExp: 1,
     },
   });
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    //if (data.password !== data.confirmpassword) {
-    //  setPassmatch(false);
-    return;
+    const aa= parseInt(data.durationOfExp.toString(), 10);
+    setValue("durationOfExp", aa);
+    data.durationOfExp=aa;
+  setLoading(true);
+    if (!access) {
+      setLoading(false);
+      return;
+    }
+    const res = await handlePostRequest(
+      "/candidatures/job",
+      data,
+      (error) => {
+        toast({
+          title: "Application Failed !",
+          description: error.response?.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
+      access
+    );
+    setLoading(false);
+    if (res) {
+      toast({
+        title: "Application sent !",
+        description: null,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      router.push("/");
+    }
   };
-  //    setPassmatch(true);
-  //    setLoading(true);
-  //    const res = await handlePostRequest(
-  //      "/auth/signup",
-  //      {
-  //        ...data,
-  //        gender: data.gender === '1' ? true : false,
-  //        isAdmin: false,
-  //      },
-  //      (error) => {
-  //        toast({
-  //          title: "Register Failed !",
-  //          description: error.response?.data.message,
-  //          status: "error",
-  //          duration: 3000,
-  //         isClosable: true,
-  //        });
-  //      }
-  //    );
-  //    setLoading(false);
-  //    if (res) {
-  //      toast({
-  //        title: "Register Successful !",
-  //        description: null,
-  //        status: "success",
-  //        duration: 3000,
-  //        isClosable: true,
-  //      });
-  //      localStorage.setItem("access_token", res.data.access_token);
-  //      router.push("/");
-  //    }
-  //  };
-
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-[100%]">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-[100%] lg:py-0">
@@ -95,7 +93,7 @@ export default function Job({}: Props) {
                   <Input
                     placeholder="Education Level"
                     label="Education Level"
-                    name="educationlvl"
+                    name="educationLvl"
                     register={register}
                     type="text"
                   />
@@ -119,7 +117,7 @@ export default function Job({}: Props) {
                   <Input
                     placeholder="last poste occurred"
                     label="last poste occurred"
-                    name="lastpostoccurr"
+                    name="lastPostOcc"
                     register={register}
                     type="text"
                   />
