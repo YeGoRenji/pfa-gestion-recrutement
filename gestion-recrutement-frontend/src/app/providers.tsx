@@ -25,16 +25,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
         const res = await handleGetRequest("/auth/verify", null, (err) => null, tok
         );
         verified = res?.data;
-        verified = res;
       }
-      console.log(verified);
       if (!verified && tok)
         localStorage.removeItem("access_token");
       if (["/login", "/register"].includes(path) && verified)
         return router.push("/");
-      if (["/internship", "/job"].includes(path) ||  path.startsWith("/apply") && !verified)
+      if ((["/internship", "/job"].includes(path) ||  path.startsWith("/apply")) && !verified)
         return router.push("/login");
-      console.log("here");
+      console.log(verified);
       setLoading(false);
       setAccess(verified ? tok : null);
     };
@@ -52,7 +50,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             </div>
           ) : (
             <>
-              {["/login", "/register"].includes(path) ? (
+              {(["/login", "/register"].includes(path) || path.startsWith("/admin")) ? (
                 children
               ) : (
                 <HomeLayout>{children}</HomeLayout>
