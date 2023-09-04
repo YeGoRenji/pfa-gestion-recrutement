@@ -50,7 +50,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             </div>
           ) : (
             <>
-              {["/login", "/register"].includes(path) ? (
+              {(["/login", "/register"].includes(path) || path.startsWith("/admin")) ? (
                 children
               ) : (
                 <HomeLayout>{children}</HomeLayout>
