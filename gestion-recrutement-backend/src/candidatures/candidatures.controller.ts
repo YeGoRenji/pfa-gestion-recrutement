@@ -11,7 +11,6 @@ import { JwtGuard } from 'src/auth/guard';
 import { CandidaturesService } from './candidatures.service';
 import { internshipAppDto, jobAppDto, offerAppDto } from './dto';
 
-
 @UseGuards(JwtGuard)
 @Controller('candidatures')
 export class CandidaturesController {
@@ -54,5 +53,11 @@ export class CandidaturesController {
   ) {
     if (isAdmin) throw new UnauthorizedException('You should be a candidate !');
     return this.candidatureService.offerApplication(data, userId);
+  }
+
+  @Get('all')
+  getAllCandidatures(@User('isAdmin') isAdmin: boolean) {
+    if (!isAdmin) throw new UnauthorizedException('You should be an admin !');
+    return this.candidatureService.getAll();
   }
 }

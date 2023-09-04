@@ -1,17 +1,10 @@
 "use client"
+import MoveUpLink from "@/components/MoveUpLink";
 import AccessContext from "@/context/AccessContext";
 import { Metadata } from "next";
 import Link from "next/link";
 import { useContext } from "react";
 import { RiAdminFill } from 'react-icons/ri'
-
-const CoolLink  = ({ children } : { children : React.ReactNode }) => {
-  return (
-    <div className="transition-transform hover:-translate-y-[0.1rem]">
-      {children}
-    </div>
-  )
-}
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -43,9 +36,9 @@ export default function DashboardLayout({
           <div className="w-[50%] flex justify-around">
             {navs.map((elt, index) => (
               <Link key={index} href={elt.route}>
-                <CoolLink>
+                <MoveUpLink>
                   {elt.label}
-                </CoolLink>
+                </MoveUpLink>
               </Link>
             ))}
           </div>
@@ -68,7 +61,7 @@ export default function DashboardLayout({
             )}
           </div>
         </nav>
-        <div className="p-5">{children}</div>
+        <div className="p-5 overflow-x-scroll">{children}</div>
       </div>
     </div>
   );

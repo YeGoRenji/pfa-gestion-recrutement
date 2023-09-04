@@ -115,8 +115,8 @@ export default function Job({}: Props) {
                 </div>
                 <div className="space-y-2 md:space-y-6 w-[48%]">
                   <Input
-                    placeholder="last poste occurred"
-                    label="last poste occurred"
+                    placeholder="Last Position Occupied"
+                    label="Last Position Occupied"
                     name="lastPostOcc"
                     register={register}
                     type="text"

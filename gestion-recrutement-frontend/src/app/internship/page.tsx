@@ -32,59 +32,59 @@ export default function Internship({}: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [access, _] = useContext(AccessContext);
-  const { register, handleSubmit, control,setValue } = useForm<Inputs>({
+  const { register, handleSubmit, control, setValue } = useForm<Inputs>({
     defaultValues: {
       internshipDuratio: 1,
       type: "PFE",
     },
   });
 
-   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const aa= parseInt(data.internshipDuratio.toString(), 10);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const aa = parseInt(data.internshipDuratio.toString(), 10);
     setValue("internshipDuratio", aa);
-    data.internshipDuratio=aa;
-     setLoading(true);
-     if (!access) {
+    data.internshipDuratio = aa;
+    setLoading(true);
+    if (!access) {
       setLoading(false);
-       return;
+      return;
     }
-     const res = await handlePostRequest(
-       "/candidatures/internship",
-       data,
-       (error) => {
-         toast({
-           title: "Application Failed !",
-           description: error.response?.data.message,
-           status: "error",
-           duration: 3000,
-           isClosable: true,
-         });
-       },
-       access
-     );
+    const res = await handlePostRequest(
+      "/candidatures/internship",
+      data,
+      (error) => {
+        toast({
+          title: "Application Failed !",
+          description: error.response?.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
+      access
+    );
     setLoading(false);
-     if (res) {
-       toast({
-         title: "Application sent !",
-         description: null,
-         status: "success",
-         duration: 3000,
-         isClosable: true,
-     });
-       router.push("/");
-     }
-   };
+    if (res) {
+      toast({
+        title: "Application sent !",
+        description: null,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      router.push("/");
+    }
+  };
   // //#475163
   // //#4C5866
 
   const comboBoxStyle = {
-     backgroundColor: "#4C5869",
-     color: "#FFFFFF",
-     border: "0px ",
-     padding: "10px",
-     gap: "10px",
-     fontSize: "13px", // Taille de la police pour les options
-   };
+    backgroundColor: "#4C5869",
+    color: "#FFFFFF",
+    border: "0px ",
+    padding: "10px",
+    gap: "10px",
+    fontSize: "13px", // Taille de la police pour les options
+  };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-[100%]">
@@ -131,29 +131,16 @@ export default function Internship({}: Props) {
                       defaultValue={1}
                       render={({ field }) => (
                         <FormControl>
-                          <label style={{ fontSize: "14px" }}>
+                          <label htmlFor="internshipDuratio" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Internship Duration
                           </label>
-
                           <Select {...field} style={comboBoxStyle}>
-                            <option value="1" style={{ color: "black" }}>
-                              One month
-                            </option>
-                            <option value="2" style={{ color: "black" }}>
-                              Two month
-                            </option>
-                            <option value="3" style={{ color: "black" }}>
-                              Tree month
-                            </option>
-                            <option value="4" style={{ color: "black" }}>
-                              Four month
-                            </option>
-                            <option value="5" style={{ color: "black" }}>
-                              Five month
-                            </option>
-                            <option value="6" style={{ color: "black" }}>
-                              Six month
-                            </option>
+                            <option value="1">One month</option>
+                            <option value="2">Two months</option>
+                            <option value="3">Tree months</option>
+                            <option value="4">Four months</option>
+                            <option value="5">Five months</option>
+                            <option value="6">Six months</option>
                           </Select>
                         </FormControl>
                       )}
@@ -165,25 +152,15 @@ export default function Internship({}: Props) {
                       name="type"
                       control={control}
                       //defaultValue="PFE"
-
                       render={({ field }) => (
                         <FormControl>
-                          <label style={{ fontSize: "14px" }}>
+                          <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Type Of Internship
                           </label>
                           <Select {...field} style={comboBoxStyle}>
-                            <option value="PFE" style={{ color: "black" }}>
-                              PFE
-                            </option>
-                            <option value="PFA" style={{ color: "black" }}>
-                              PFA
-                            </option>
-                            <option
-                              value="Stage_ETE"
-                              style={{ color: "black" }}
-                            >
-                              Stage ETE
-                            </option>
+                            <option value="PFE">PFE</option>
+                            <option value="PFA">PFA</option>
+                            <option value="Stage_ETE">Stage ETE</option>
                           </Select>
                         </FormControl>
                       )}

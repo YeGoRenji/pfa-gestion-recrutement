@@ -2,14 +2,14 @@
 import TableData from "@/components/TableData";
 import AccessContext from "@/context/AccessContext";
 import { handleGetRequest } from "@/functions";
-import { ProfileType } from "@/types";
+import { OfferRowType } from "@/types";
 import { useToast } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
 type Props = {};
 
-export default function Profiles({}: Props) {
-  const [data, setData] = useState<ProfileType[]>([]);
+export default function Offers({}: Props) {
+  const [data, setData] = useState<OfferRowType[]>([]);
   const [access, _] = useContext(AccessContext);
   const toast = useToast();
 
@@ -17,7 +17,7 @@ export default function Profiles({}: Props) {
     async function fetchData() {
       if (!access) return;
       const data = await handleGetRequest(
-        "/profiles/all",
+        "/offers/all",
         null,
         (error) => {
           toast({
@@ -30,6 +30,7 @@ export default function Profiles({}: Props) {
         },
         access
       );
+      console.log(data?.data);
       setData(data?.data);
     }
     fetchData();
@@ -37,7 +38,7 @@ export default function Profiles({}: Props) {
 
   return (
     <div>
-      <TableData data={data} idCol="profileId" excludeCols={["createdAt", "modifiedAt"]} />
+      <TableData data={data} idCol="profileId" excludeCols={["createdAt", "modifiedAt", "concernId", "managerId"]} objectCol="requiredProfile" />
     </div>
   );
 }

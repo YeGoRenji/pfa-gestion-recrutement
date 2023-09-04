@@ -80,4 +80,23 @@ export class CandidaturesService {
       },
     });
   }
+
+  async getAll() {
+    const data = await this.prisma.candidature.findMany({
+      include: {
+        internC: true,
+        jobC: true,
+        offerC: true,
+      },
+    });
+    const simplified = data.map((element) => {
+      const forC = element.internC || element.offerC || element.jobC;
+      // delete element.internC;
+      // delete element.offerC;
+      // delete element.jobC;
+      element['forC'] = forC;
+      return element;
+    });
+    return simplified;
+  }
 }

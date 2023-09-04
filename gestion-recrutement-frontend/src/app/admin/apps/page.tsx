@@ -8,7 +8,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 type Props = {};
 
-export default function Profiles({}: Props) {
+export default function Apps({}: Props) {
   const [data, setData] = useState<ProfileType[]>([]);
   const [access, _] = useContext(AccessContext);
   const toast = useToast();
@@ -17,7 +17,7 @@ export default function Profiles({}: Props) {
     async function fetchData() {
       if (!access) return;
       const data = await handleGetRequest(
-        "/profiles/all",
+        "/candidatures/all",
         null,
         (error) => {
           toast({
@@ -37,7 +37,8 @@ export default function Profiles({}: Props) {
 
   return (
     <div>
-      <TableData data={data} idCol="profileId" excludeCols={["createdAt", "modifiedAt"]} />
+      <TableData data={data} idCol="profileId" excludeCols={["createdAt", "modifiedAt", "candidateId", "jobC", "offerC", "internC"]} />
     </div>
   );
 }
+
