@@ -94,7 +94,7 @@ export class CandidaturesService {
       // delete element.internC;
       // delete element.offerC;
       // delete element.jobC;
-      element['forC'] = forC;
+      element['details'] = forC;
       return element;
     });
     return simplified;

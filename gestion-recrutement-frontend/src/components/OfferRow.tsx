@@ -49,7 +49,7 @@ export default function OfferRow({ offer, onApply }: Props) {
           <Button
             onClick={onApply}
             variant={"solid"}
-            className="bg-primary-300"
+            className="bg-primary-300 text-black hover:bg-primary-200"
           >
             Apply now
           </Button>

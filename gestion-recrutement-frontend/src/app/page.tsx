@@ -31,7 +31,11 @@ export default function Home() {
     fetchData();
   }, [toast]);
   return (
-    <div>
+    <div className="grid grid-cols-[25%_auto]">
+      <div>
+        <div>TODO: FILTER by OfferType</div>
+        <div>TODO: FILTER by Location</div>
+      </div>
       <div>
         {data && data.map((data) => (
           <OfferRow key={data.offerId} offer={data} onApply={() => {

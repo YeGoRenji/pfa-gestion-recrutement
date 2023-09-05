@@ -42,3 +42,26 @@ export async function handleGetRequest(
     }
   }
 }
+
+export async function handleDeleteRequest(
+  path: string,
+  data: any,
+  onError: (err: AxiosError<any, any>) => void,
+  token?: string
+) {
+  try {
+    if (!token)
+      return await axios.delete(`${process.env.BACKEND_URL}${path}`, {
+        data: data,
+      });
+    return await axios.delete(`${process.env.BACKEND_URL}${path}`, {
+      data: data,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      onError(error);
+      return null;
+    }
+  }
+}
