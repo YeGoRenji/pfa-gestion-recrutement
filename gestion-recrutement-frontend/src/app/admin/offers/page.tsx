@@ -30,7 +30,6 @@ export default function Offers({}: Props) {
         },
         access
       );
-      console.log(data?.data);
       setData(data?.data);
     }
     fetchData();

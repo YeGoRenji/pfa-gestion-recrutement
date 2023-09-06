@@ -32,6 +32,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
         return router.push("/");
       if ((["/internship", "/job"].includes(path) ||  path.startsWith("/apply")) && !verified)
         return router.push("/login");
+      if (path.startsWith("/admin/") && (!verified || !verified.isAdmin))
+          return router.push("/admin");
       console.log(verified);
       setLoading(false);
       setAccess(verified ? tok : null);
