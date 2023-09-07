@@ -2,11 +2,10 @@
 import Input from "@/components/Input";
 import { Button, Center, Spinner, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { getErrorString, handlePostRequest } from "@/functions";
-import UserContext from "@/context/userContext";
+import UserContext from "@/context/UserContext";
 
 type Props = {};
 

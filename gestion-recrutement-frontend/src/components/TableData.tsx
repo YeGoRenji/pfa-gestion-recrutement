@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import moment from "moment";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaCircle, FaEdit, FaTrash } from "react-icons/fa";
 
 interface MyObject {
   [key: string]: any;
@@ -19,6 +19,9 @@ interface MyObject {
 
 const typeToJSX = (val: any, objectCol: string | undefined) => {
   if (val === null) return <>NULL</>;
+
+  if (typeof(val) === "boolean")
+    return (<><FaCircle color={val ? "#50FF50" : "#FF5050"}/></>)
 
   if (Array.isArray(val))
     return (
@@ -61,7 +64,7 @@ export default function TableData({
   idCol: string;
   excludeCols: string[];
   objectCol?: string;
-  actions?: ((id: number) => React.JSX.Element)[];
+  actions?: ((id: number, value: MyObject) => React.JSX.Element)[];
 }) {
   return (
     <TableContainer>
@@ -89,7 +92,7 @@ export default function TableData({
                 {actions && (
                   <Td>
                     <HStack>
-                      {actions.map((action) => action(elt[idCol]))}
+                      {actions.map((action) => action(elt[idCol], elt))}
                     </HStack>
                   </Td>
                 )}

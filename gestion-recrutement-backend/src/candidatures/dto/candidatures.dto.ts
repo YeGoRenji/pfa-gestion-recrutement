@@ -1,5 +1,5 @@
 import { InternshipType } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class jobAppDto {
   @IsNotEmpty()
@@ -52,4 +52,10 @@ export class offerAppDto {
   @IsNotEmpty()
   @IsNumber()
   durationOfExp: number;
+}
+
+export class approveAppDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  status: boolean;
 }

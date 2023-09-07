@@ -1,7 +1,7 @@
 "use client"
 import MoveUpLink from "@/components/MoveUpLink";
 import AccessContext from "@/context/AccessContext";
-import UserContext from "@/context/userContext";
+import UserContext from "@/context/UserContext";
 import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
 import Link from "next/link";

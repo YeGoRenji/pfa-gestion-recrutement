@@ -169,7 +169,7 @@ export default function Offers({}: Props) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add Profile</ModalHeader>
+          <ModalHeader>Add Offer</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>

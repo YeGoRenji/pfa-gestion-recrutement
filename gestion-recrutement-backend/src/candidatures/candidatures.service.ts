@@ -99,4 +99,15 @@ export class CandidaturesService {
     });
     return simplified;
   }
+
+  async apporveApp(id: number, status: boolean) {
+    return await this.prisma.candidature.update({
+      data: {
+        status,
+      },
+      where: {
+        candidatureId: id,
+      },
+    });
+  }
 }

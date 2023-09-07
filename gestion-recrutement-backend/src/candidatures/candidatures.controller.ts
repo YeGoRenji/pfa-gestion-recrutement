@@ -5,11 +5,13 @@ import {
   UnauthorizedException,
   UseGuards,
   Body,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { User } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { CandidaturesService } from './candidatures.service';
-import { internshipAppDto, jobAppDto, offerAppDto } from './dto';
+import { approveAppDto, internshipAppDto, jobAppDto, offerAppDto } from './dto';
 
 @UseGuards(JwtGuard)
 @Controller('candidatures')
@@ -59,5 +61,15 @@ export class CandidaturesController {
   getAllCandidatures(@User('isAdmin') isAdmin: boolean) {
     if (!isAdmin) throw new UnauthorizedException('You should be an admin !');
     return this.candidatureService.getAll();
+  }
+
+  @Post('/approve/:id')
+  approveApplication(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: approveAppDto,
+    @User('isAdmin') isAdmin: boolean,
+  ) {
+    if (!isAdmin) throw new UnauthorizedException('You should be an admin !');
+    return this.candidatureService.apporveApp(id, data.status);
   }
 }
