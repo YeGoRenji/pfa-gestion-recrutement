@@ -2,7 +2,7 @@
 import TableData from "@/components/TableData";
 import TagList from "@/components/TagList";
 import AccessContext from "@/context/AccessContext";
-import { handleDeleteRequest, handleGetRequest, handlePostRequest } from "@/functions";
+import { getErrorString, handleDeleteRequest, handleGetRequest, handlePostRequest } from "@/functions";
 import { ProfileType } from "@/types";
 import {
   Button,
@@ -16,6 +16,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -27,6 +28,7 @@ type Props = {};
 
 export default function Profiles({}: Props) {
   const [data, setData] = useState<ProfileType[]>([]);
+  const [loading, setLoading] = useState(false);
   const [access, _] = useContext(AccessContext);
   const toast = useToast();
 
@@ -46,11 +48,12 @@ export default function Profiles({}: Props) {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (!access)
       return;
+    setLoading(true);
     const res = await handlePostRequest('/profiles/create', data,
       (error) => {
         toast({
           title: "Add Profile Failed !",
-          description: error.response?.data.message,
+          description: getErrorString(error.response?.data.message),
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -58,8 +61,13 @@ export default function Profiles({}: Props) {
       },
       access
     )
+    setLoading(false);
     if (res)
+    {
+      reset();
+      onClose();
       fetchData();
+    }
   };
 
   async function fetchData() {
@@ -70,7 +78,7 @@ export default function Profiles({}: Props) {
       (error) => {
         toast({
           title: "Server Error !",
-          description: error.response?.data.message,
+          description: getErrorString(error.response?.data.message),
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -107,6 +115,7 @@ export default function Profiles({}: Props) {
         actions={[
           (id) => (
             <FaTrash
+              key={id}
               cursor="pointer"
               color="#F04040"
               onClick={async () => {
@@ -116,7 +125,7 @@ export default function Profiles({}: Props) {
                   (error) =>
                     toast({
                       title: "Server Error !",
-                      description: error.response?.data.message,
+                      description: getErrorString(error.response?.data.message),
                       status: "error",
                       duration: 3000,
                       isClosable: true,
@@ -177,8 +186,8 @@ export default function Profiles({}: Props) {
             </ModalBody>
 
             <ModalFooter>
-              <Button onClick={handleSubmit(onSubmit)} colorScheme="blue" mr={3}>
-                Add
+              <Button isDisabled={loading} onClick={handleSubmit(onSubmit)} colorScheme="blue" mr={3}>
+                {loading ? <Spinner/> : "Add"}
               </Button>
               <Button onClick={() => {onClose(); reset()}}>Cancel</Button>
             </ModalFooter>

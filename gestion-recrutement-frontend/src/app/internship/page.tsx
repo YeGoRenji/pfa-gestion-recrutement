@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import Input from "@/components/Input";
 
-import { handlePostRequest } from "@/functions";
+import { getErrorString, handlePostRequest } from "@/functions";
 import {
   Button,
   Select,
@@ -54,7 +54,7 @@ export default function Internship({}: Props) {
       (error) => {
         toast({
           title: "Application Failed !",
-          description: error.response?.data.message,
+          description: getErrorString(error.response?.data.message),
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -131,7 +131,10 @@ export default function Internship({}: Props) {
                       defaultValue={1}
                       render={({ field }) => (
                         <FormControl>
-                          <label htmlFor="internshipDuratio" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label
+                            htmlFor="internshipDuratio"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Internship Duration
                           </label>
                           <Select {...field} style={comboBoxStyle}>
@@ -154,7 +157,10 @@ export default function Internship({}: Props) {
                       //defaultValue="PFE"
                       render={({ field }) => (
                         <FormControl>
-                          <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                          <label
+                            htmlFor="type"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          >
                             Type Of Internship
                           </label>
                           <Select {...field} style={comboBoxStyle}>

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
-import { handlePostRequest } from "@/functions";
+import { getErrorString, handlePostRequest } from "@/functions";
 
 type Props = {};
 
@@ -30,7 +30,7 @@ export default function Login({}: Props) {
       (error) => {
         toast({
           title: "Login Failed !",
-          description: error.response?.data.message,
+          description: getErrorString(error.response?.data.message),
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -98,6 +98,15 @@ export default function Login({}: Props) {
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
+                </Link>
+              </p>
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                Are you admin ?{" "}
+                <Link
+                  href="/admin"
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Go here !
                 </Link>
               </p>
             </form>

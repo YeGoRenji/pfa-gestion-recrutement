@@ -1,6 +1,6 @@
 "use client";
 import Input from "@/components/Input";
-import { handlePostRequest } from "@/functions";
+import { getErrorString, handlePostRequest } from "@/functions";
 import {
   Button,
   Radio,
@@ -55,7 +55,7 @@ export default function Register({}: Props) {
       (error) => {
         toast({
           title: "Register Failed !",
-          description: error.response?.data.message,
+          description: getErrorString(error.response?.data.message),
           status: "error",
           duration: 3000,
           isClosable: true,

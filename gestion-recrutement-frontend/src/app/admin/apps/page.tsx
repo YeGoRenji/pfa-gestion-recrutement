@@ -22,7 +22,7 @@ export default function Apps({}: Props) {
         (error) => {
           toast({
             title: "Server Error !",
-            description: error.response?.data.message,
+            description: getErrorString(error.response?.data.message),
             status: "error",
             duration: 3000,
             isClosable: true,

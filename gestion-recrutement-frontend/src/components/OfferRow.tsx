@@ -7,20 +7,21 @@ import {
   Flex,
   HStack,
   Heading,
+  Spinner,
   Tag,
   Text,
 } from "@chakra-ui/react";
 import {FaSuitcase} from "react-icons/fa";
 import React from "react";
 
-type Props = { offer: OfferRowType; onApply: () => void };
+type Props = { offer: OfferRowType; onApply: () => void; loading: boolean };
 
 const offertypeStr = {
   "JOB_OFFER": 'Job Offer',
   "INTERNSHIP_OFFER": 'Internship',
 }
 
-export default function OfferRow({ offer, onApply }: Props) {
+export default function OfferRow({ offer, onApply, loading }: Props) {
 
 
   return (
@@ -48,10 +49,11 @@ export default function OfferRow({ offer, onApply }: Props) {
           </Text>
           <Button
             onClick={onApply}
+            isDisabled={loading}
             variant={"solid"}
             className="bg-primary-300 text-black hover:bg-primary-200"
           >
-            Apply now
+            {loading ? <Spinner/> : "Apply now"}
           </Button>
         </Flex>
         <HStack spacing={2}>{offer.profile.desiredSkills.map((desired, index) => (

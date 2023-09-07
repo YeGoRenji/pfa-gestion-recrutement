@@ -2,7 +2,7 @@
 import React, { useContext, useEffect } from "react";
 import Input from "@/components/Input";
 
-import { handlePostRequest } from "@/functions";
+import { getErrorString, handlePostRequest } from "@/functions";
 import { Button, Spinner, useToast } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -54,7 +54,7 @@ export default function Application({}: Props) {
       (error) => {
         toast({
           title: "Application Failed !",
-          description: error.response?.data.message,
+          description: getErrorString(error.response?.data.message),
           status: "error",
           duration: 3000,
           isClosable: true,

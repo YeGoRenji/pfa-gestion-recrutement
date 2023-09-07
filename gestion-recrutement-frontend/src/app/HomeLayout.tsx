@@ -1,5 +1,7 @@
 import MoveUpLink from "@/components/MoveUpLink";
 import AccessContext from "@/context/AccessContext";
+import UserContext from "@/context/UserContext";
+import { Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React, { useContext, useState } from "react";
 import { FaGraduationCap, FaSuitcase } from "react-icons/fa";
@@ -14,6 +16,7 @@ export default function HomeLayout({ children }: Props) {
   ];
 
   const [access, setAccess] = useContext(AccessContext);
+  const [user, _] = useContext(UserContext);
   const [icon, setIcon] = useState<React.ReactNode>(<FaGraduationCap />);
 
   return (
@@ -40,7 +43,7 @@ export default function HomeLayout({ children }: Props) {
           <div>
             {access ? (
               <div className="flex gap-5">
-                <Link href="#">PROFILE</Link>
+                <Text>{user?.firstName}, {user?.lastName}</Text>
                 <button
                   className="text-red-400"
                   onClick={() => {
@@ -56,7 +59,7 @@ export default function HomeLayout({ children }: Props) {
             )}
           </div>
         </nav>
-        <div className="p-5">{children}</div>
+        <div className="p-5 h-[100%] overflow-y-hidden">{children}</div>
       </div>
     </div>
   );

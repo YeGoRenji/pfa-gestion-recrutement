@@ -2,22 +2,12 @@
 import React, { useContext } from "react";
 import Input from "@/components/Input";
 
-import { handlePostRequest } from "@/functions";
-import {
-  Button,
-  Radio,
-  RadioGroup,
-  Select,
-  FormControl,
-  Spinner,
-  Stack,
-  useToast,
-} from "@chakra-ui/react";
+import { getErrorString, handlePostRequest } from "@/functions";
+import { Button, Spinner, useToast } from "@chakra-ui/react";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import AccessContext from "@/context/AccessContext";
 
 type Props = {};
@@ -31,21 +21,20 @@ type Inputs = {
 };
 
 export default function Job({}: Props) {
-  const [passmatch, setPassmatch] = useState(true);
   const toast = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [access, _] = useContext(AccessContext);
-  const { register, handleSubmit, control,setValue } = useForm<Inputs>({
+  const { register, handleSubmit, setValue } = useForm<Inputs>({
     defaultValues: {
       durationOfExp: 1,
     },
   });
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const aa= parseInt(data.durationOfExp.toString(), 10);
+    const aa = parseInt(data.durationOfExp.toString(), 10);
     setValue("durationOfExp", aa);
-    data.durationOfExp=aa;
-  setLoading(true);
+    data.durationOfExp = aa;
+    setLoading(true);
     if (!access) {
       setLoading(false);
       return;
@@ -56,7 +45,7 @@ export default function Job({}: Props) {
       (error) => {
         toast({
           title: "Application Failed !",
-          description: error.response?.data.message,
+          description: getErrorString(error.response?.data.message),
           status: "error",
           duration: 3000,
           isClosable: true,

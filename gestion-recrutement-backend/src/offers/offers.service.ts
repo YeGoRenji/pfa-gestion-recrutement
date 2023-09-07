@@ -16,7 +16,20 @@ export class OffersService {
 
   async createOffer(data: createOfferDto, userId: number) {
     return await this.prisma.offer.create({
-      data: { ...data, managerId: userId, isArchived: false },
+      data: {
+        ...data,
+        deadline: new Date(data.deadline),
+        managerId: userId,
+        isArchived: false,
+      },
+    });
+  }
+
+  async removeOffer(id: number) {
+    return await this.prisma.offer.delete({
+      where: {
+        offerId: id,
+      },
     });
   }
 }

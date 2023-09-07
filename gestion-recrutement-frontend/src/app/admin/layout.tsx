@@ -1,6 +1,8 @@
 "use client"
 import MoveUpLink from "@/components/MoveUpLink";
 import AccessContext from "@/context/AccessContext";
+import UserContext from "@/context/userContext";
+import { Text } from "@chakra-ui/react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { useContext } from "react";
@@ -23,6 +25,7 @@ export default function DashboardLayout({
   ];
 
   const [access, setAccess] = useContext(AccessContext);
+  const [user, _] = useContext(UserContext);
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -45,7 +48,7 @@ export default function DashboardLayout({
           <div>
             {access ? (
               <div className="flex gap-5">
-                <Link href="#">PROFILE</Link>
+                <Text>{user?.firstName}, {user?.lastName}</Text>
                 <button
                   className="text-red-400"
                   onClick={() => {
@@ -57,11 +60,11 @@ export default function DashboardLayout({
                 </button>
               </div>
             ) : (
-              <Link href="#">LOGIN</Link>
+              <Link href="/">GO HOME</Link>
             )}
           </div>
         </nav>
-        <div className="p-5 overflow-x-scroll">{children}</div>
+        <div className="p-5 overflow-y-scroll">{children}</div>
       </div>
     </div>
   );
