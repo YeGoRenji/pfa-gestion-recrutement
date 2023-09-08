@@ -71,7 +71,7 @@ export default function Apps({}: Props) {
         idCol="candidatureId"
         excludeCols={[
           "createdAt",
-          "candidateId",
+          "modifiedAt",
           "jobC",
           "offerC",
           "internC",

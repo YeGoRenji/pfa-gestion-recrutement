@@ -6,18 +6,22 @@ import { internshipAppDto, jobAppDto, offerAppDto } from './dto';
 export class CandidaturesService {
   constructor(private prisma: PrismaService) {}
   async getMe(userId: number) {
-    const candidatures = await this.prisma.candidature.findMany({
-      where: {
-        candidateId: userId,
-      },
+    const data = await this.prisma.candidature.findMany({
       include: {
         internC: true,
         jobC: true,
         offerC: true,
       },
+      where: {
+        candidateId: userId,
+      },
     });
-
-    return candidatures;
+    const simplified = data.map((element) => {
+      const forC = element.internC || element.offerC || element.jobC;
+      element['details'] = forC;
+      return element;
+    });
+    return simplified;
   }
 
   async jobApplication(data: jobAppDto, userId: number) {
@@ -91,9 +95,6 @@ export class CandidaturesService {
     });
     const simplified = data.map((element) => {
       const forC = element.internC || element.offerC || element.jobC;
-      // delete element.internC;
-      // delete element.offerC;
-      // delete element.jobC;
       element['details'] = forC;
       return element;
     });

@@ -1,8 +1,9 @@
 import MoveUpLink from "@/components/MoveUpLink";
 import AccessContext from "@/context/AccessContext";
 import UserContext from "@/context/UserContext";
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { FaGraduationCap, FaSuitcase } from "react-icons/fa";
 
@@ -16,8 +17,9 @@ export default function HomeLayout({ children }: Props) {
   ];
 
   const [access, setAccess] = useContext(AccessContext);
-  const [user, _] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   const [icon, setIcon] = useState<React.ReactNode>(<FaGraduationCap />);
+  const router = useRouter();
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -43,12 +45,22 @@ export default function HomeLayout({ children }: Props) {
           <div>
             {access ? (
               <div className="flex gap-5">
-                <Text>{user?.firstName}, {user?.lastName}</Text>
+                <Text>
+                  {user?.firstName}, {user?.lastName}
+                </Text>
+                {!user?.isAdmin && (
+                  <>
+                    <Box width="1px" className="bg-red-400"/>
+                    <Link href="/profile">PROFILE</Link>
+                  </>
+                )}
                 <button
                   className="text-red-400"
                   onClick={() => {
                     localStorage.removeItem("access_token");
                     setAccess(null);
+                    setUser(null);
+                    router.push("/");
                   }}
                 >
                   LOGOUT
