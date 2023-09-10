@@ -49,6 +49,16 @@ export default function Offers({}: Props) {
 
   const onSubmit: SubmitHandler<OfferInputType> = async (data) => {
     if (!access) return;
+    if (data.concernId < 0) {
+      toast({
+        title: "Error !",
+        description: "You should pick a profile !",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     data.nbOfPositions = parseInt(data.nbOfPositions);
     data.concernId = parseInt(data.concernId);
     setLoading(true);
@@ -261,8 +271,13 @@ export default function Offers({}: Props) {
           </ModalBody>
 
           <ModalFooter>
-            <Button isDisabled={loading} onClick={handleSubmit(onSubmit)} colorScheme="blue" mr={3}>
-                {loading ? <Spinner/> : "Add"}
+            <Button
+              isDisabled={loading}
+              onClick={handleSubmit(onSubmit)}
+              colorScheme="blue"
+              mr={3}
+            >
+              {loading ? <Spinner /> : "Add"}
             </Button>
             <Button
               onClick={() => {

@@ -8,6 +8,7 @@ import {
   Td,
   Tag,
   HStack,
+  Tooltip,
 } from "@chakra-ui/react";
 import React from "react";
 import moment from "moment";
@@ -20,8 +21,12 @@ interface MyObject {
 const typeToJSX = (val: any, objectCol: string | undefined) => {
   if (val === null) return <>NULL</>;
 
-  if (typeof(val) === "boolean")
-    return (<><FaCircle color={val ? "#50FF50" : "#FF5050"}/></>)
+  if (typeof val === "boolean")
+    return (
+      <>
+        <FaCircle color={val ? "#50FF50" : "#FF5050"} />
+      </>
+    );
 
   if (Array.isArray(val))
     return (
@@ -49,8 +54,14 @@ const typeToJSX = (val: any, objectCol: string | undefined) => {
         )}
       </>
     );
+  let str: string = val.toString();
 
-  return <>{val.toString()}</>;
+  const MAX_LEN: number = 15;
+  if (str.length >= MAX_LEN) {
+    str = str.substring(0, MAX_LEN).concat("...");
+    return <Tooltip label={val.toString()}>{str}</Tooltip>;
+  }
+  return <>{str}</>;
 };
 
 export default function TableData({
