@@ -32,4 +32,15 @@ export class OffersService {
       },
     });
   }
+
+  async archiveOffer(id: number, status: boolean) {
+    return await this.prisma.offer.update({
+      data: {
+        isArchived: status,
+      },
+      where: {
+        offerId: id,
+      },
+    });
+  }
 }

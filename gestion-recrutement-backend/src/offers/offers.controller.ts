@@ -12,7 +12,7 @@ import {
 import { OffersService } from './offers.service';
 import { JwtGuard } from 'src/auth/guard';
 import { User } from 'src/auth/decorator';
-import { createOfferDto } from './dto';
+import { archiveOfferDto, createOfferDto } from './dto';
 
 @Controller('offers')
 export class OffersController {
@@ -42,5 +42,16 @@ export class OffersController {
   ) {
     if (!isAdmin) throw new UnauthorizedException('You should be an Admin !');
     return this.offerService.removeOffer(id);
+  }
+
+  @Post('/archive/:id')
+  @UseGuards(JwtGuard)
+  archiveOffer(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: archiveOfferDto,
+    @User('isAdmin') isAdmin: boolean,
+  ) {
+    if (!isAdmin) throw new UnauthorizedException('You should be an admin !');
+    return this.offerService.archiveOffer(id, data.status);
   }
 }

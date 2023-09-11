@@ -95,17 +95,19 @@ export class CandidaturesService {
     });
 
     const candidates = await this.prisma.candidate.findMany({
-      select : {
+      select: {
         userId: true,
         firstName: true,
         lastName: true,
-        phone: true
-      }
+        phone: true,
+      },
     });
 
     const simplified = data.map((element) => {
       const forC = element.internC || element.offerC || element.jobC;
-      const candidate = candidates.find(({userId}) => userId == element.candidateId);
+      const candidate = candidates.find(
+        ({ userId }) => userId == element.candidateId,
+      );
       element['Name'] = `${candidate.firstName}, ${candidate.lastName}`;
       element['Phone'] = candidate.phone;
       delete element['candidateId'];

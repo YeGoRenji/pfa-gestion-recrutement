@@ -1,5 +1,6 @@
 import { Location, OfferType } from '@prisma/client';
 import {
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -40,4 +41,10 @@ export class createOfferDto {
 
   @IsNumber()
   concernId: number;
+}
+
+export class archiveOfferDto {
+  @IsNotEmpty()
+  @IsBoolean()
+  status: boolean;
 }

@@ -27,7 +27,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { FaTrash } from "react-icons/fa";
+import { FaArchive, FaTrash } from "react-icons/fa";
 
 type Props = {};
 
@@ -153,6 +153,29 @@ export default function Offers({}: Props) {
                 await handleDeleteRequest(
                   `/offers/remove/${id}`,
                   null,
+                  (error) =>
+                    toast({
+                      title: "Server Error !",
+                      description: getErrorString(error.response?.data.message),
+                      status: "error",
+                      duration: 3000,
+                      isClosable: true,
+                    }),
+                  access || undefined
+                );
+                fetchData();
+              }}
+            />
+          ),
+          (id, obj) => (
+            <FaArchive
+              key={id}
+              cursor="pointer"
+              className="text-primary-200"
+              onClick={async () => {
+                await handlePostRequest(
+                  `/offers/archive/${id}`,
+                  { status: !obj.isArchived },
                   (error) =>
                     toast({
                       title: "Server Error !",
